@@ -49,12 +49,13 @@ EOF
 RUN vips --version && pkg-config --modversion vips-cpp
 
 WORKDIR /var/app/
-COPY --chown=node:node . /var/app
-USER node
 
 # Todo package lock and npm ci
 RUN npm install --build-from-source --verbose --foreground-scripts sharp
+
+COPY --chown=node:node . /var/app
 WORKDIR /var/app/examples/tiny-iiif
+USER node
 RUN npm i --omit=dev
 CMD ./index.js
 EXPOSE 3000
