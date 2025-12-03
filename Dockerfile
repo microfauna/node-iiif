@@ -7,9 +7,11 @@ ENV PREFIX_PATH=/usr/local \
   IIIF_IMAGE_PATH=/data
 
 RUN apt-get update -qq && apt-get install -y curl && apt-get clean && \
-  apt-get install -y build-essential glibc-langpack-en glib2-devel expat-devel libjpeg-turbo-devel libpng-devel libwebp-devel \
-  libexif-devel libimagequant-devel librsvg2-devel libtiff-devel lcms2-devel gobject-introspection-devel \
-  cmake nasm pkg-config meson ninja-build
+  apt-get install -y build-essential pkg-config libglib2.0-dev libexpat1-dev cmake nasm pkg-config meson ninja-build
+  # glibc-langpack-en glib2-devel expat-devel libjpeg-turbo-devel libpng-devel libwebp-devel \
+  # libexif-devel libimagequant-devel librsvg2-devel libtiff-devel lcms2-devel gobject-introspection-devel \
+  # cmake nasm pkg-config meson ninja-build
+
 
 # ---- cgif (Meson) ----
 ARG CGIF_VERSION=0.5.0
