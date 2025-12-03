@@ -57,8 +57,9 @@ RUN npm ci && npm install --build-from-source --verbose --foreground-scripts sha
 WORKDIR /var/app/examples/tiny-iiif/
 RUN chown -R node:node /var/app/
 USER node
-RUN npm i --omit=dev
-CMD ./index.js
+RUN npm i
 EXPOSE 3000
+CMD ./index.js
+
 HEALTHCHECK --interval=30s --timeout=5s --start-period=2s \
   CMD curl -s http://localhost:3000/iiif/2 | grep OK
