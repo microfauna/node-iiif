@@ -48,12 +48,14 @@ EOF
 
 RUN vips --version && pkg-config --modversion vips-cpp
 
+COPY . /var/app
 WORKDIR /var/app/
 
 RUN npm ci && npm install --build-from-source --verbose --foreground-scripts sharp
 
-COPY --chown=node:node . /var/app
+# Server
 WORKDIR /var/app/examples/tiny-iiif
+RUN chown -R node:node /var/app/
 USER node
 RUN npm i --omit=dev
 CMD ./index.js
