@@ -50,8 +50,7 @@ RUN vips --version && pkg-config --modversion vips-cpp
 
 WORKDIR /var/app/
 
-# Todo package lock and npm ci
-RUN npm install --build-from-source --verbose --foreground-scripts sharp
+RUN npm ci && npm install --build-from-source --verbose --foreground-scripts sharp
 
 COPY --chown=node:node . /var/app
 WORKDIR /var/app/examples/tiny-iiif
