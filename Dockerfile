@@ -54,7 +54,7 @@ WORKDIR /var/app/
 RUN npm ci && npm install --build-from-source --verbose --foreground-scripts sharp
 
 # Server
-WORKDIR /var/app/examples/tiny-iiif
+WORKDIR /var/app/examples/tiny-iiif/
 RUN chown -R node:node /var/app/
 USER node
 RUN npm i --omit=dev
