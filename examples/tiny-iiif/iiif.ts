@@ -13,6 +13,25 @@ const streamImageFromFile = async ({ id }: { id: string }) => {
   return fs.createReadStream(file);
 };
 
+
+// import { GetObjectCommand, S3Client } from "@aws-sdk/client-s3";
+
+// async function streamResolver({ id, baseUrl }) {
+//   const s3 = new S3Client();
+//   const command = new GetObjectCommand({
+//     Bucket: "my-tiff-bucket",
+//     Key: `${id}.tif`
+//   });
+//   const response = await s3.send(command);
+//   const body = response.Body;
+
+//   if (!stream) {
+//     throw new Error(`Could not fetch object from S3: ${id}`);
+//   }
+
+//   return stream;
+// }
+
 const render = async (req: any, res: any) => {
   if (req.params && req.params.filename == null) {
     req.params.filename = 'info.json';
