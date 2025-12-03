@@ -49,8 +49,8 @@ EOF
 RUN vips --version && pkg-config --modversion vips-cpp
 
 WORKDIR /usr/src/app
-RUN npm ci \
- && npm install --build-from-source --verbose --foreground-scripts sharp
+# Todo package lock and npm ci
+RUN npm install --build-from-source --verbose --foreground-scripts sharp
 
 COPY --chown=node:node . /var/app
 USER node
