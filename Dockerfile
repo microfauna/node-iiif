@@ -48,12 +48,12 @@ EOF
 
 RUN vips --version && pkg-config --modversion vips-cpp
 
-WORKDIR /usr/src/app
-# Todo package lock and npm ci
-RUN npm install --build-from-source --verbose --foreground-scripts sharp
-
+WORKDIR /var/app/
 COPY --chown=node:node . /var/app
 USER node
+
+# Todo package lock and npm ci
+RUN npm install --build-from-source --verbose --foreground-scripts sharp
 WORKDIR /var/app/examples/tiny-iiif
 RUN npm i --omit=dev
 CMD ./index.js
