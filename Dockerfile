@@ -1,14 +1,13 @@
-FROM amazonlinux:2023
-RUN dnf install -y nodejs22-devel \
-  && npm install -g npm@latest
+FROM node:22-slim
 
 ENV PREFIX_PATH=/usr/local \
   LIB_PATH=/usr/local/lib \
   PKG_CONFIG_PATH=/usr/local/lib/pkgconfig \
-  LD_LIBRARY_PATH=/usr/local/lib
+  LD_LIBRARY_PATH=/usr/local/lib \
+  IIIF_IMAGE_PATH=/data
 
-RUN dnf groupinstall -y "Development Tools" && \
-  dnf install -y glibc-langpack-en glib2-devel expat-devel libjpeg-turbo-devel libpng-devel libwebp-devel \
+RUN apt-get update -qq && apt-get install -y curl && apt-get clean && \
+  apt-get install -y build-essential glibc-langpack-en glib2-devel expat-devel libjpeg-turbo-devel libpng-devel libwebp-devel \
   libexif-devel libimagequant-devel librsvg2-devel libtiff-devel lcms2-devel gobject-introspection-devel \
   cmake nasm pkg-config meson ninja-build
 
@@ -44,10 +43,18 @@ RUN <<EOF
   meson install -C build
   ldconfig
 EOF
+
 RUN vips --version && pkg-config --modversion vips-cpp
 
-RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
-ADD . .
 RUN npm ci \
  && npm install --build-from-source --verbose --foreground-scripts sharp
+
+COPY --chown=node:node . /var/app
+USER node
+WORKDIR /var/app/examples/tiny-iiif
+RUN npm i --omit=dev
+CMD ./index.js
+EXPOSE 3000
+HEALTHCHECK --interval=30s --timeout=5s --start-period=2s \
+  CMD curl -s http://localhost:3000/iiif/2 | grep OK
