@@ -7,7 +7,7 @@ function App() {
     <>
       <div>
         <Viewer 
-          iiifContent="/sample/manifest.json"
+          iiifContent="./sample/manifest.json"
           options={{
             canvasHeight: "auto"
           }}
